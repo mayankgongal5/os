@@ -52,4 +52,5 @@ class RoundRobin {
         }
     }
 }
+Round Robin (RR) is a widely used CPU scheduling algorithm designed for time-sharing systems. It assigns fixed time slices or quantum to each process in the ready queue, allowing each process to execute for a specified duration before moving to the next in a circular manner. This preemptive algorithm ensures fairness by providing equal opportunities to all processes, preventing any single process from monopolizing the CPU. If a process's burst time exceeds its time quantum, it's moved to the end of the queue to await its next turn. While RR provides good turnaround time and response time for small time slices, it may suffer from high turnaround times for processes with longer burst times. Implementing RR involves maintaining a ready queue, managing time slices, and updating the queue as processes complete their time slices or new processes arrive, ensuring efficient time utilization in multitasking environments.
 
