@@ -1,0 +1,58 @@
+Fork System Call
+
+Code:-
+include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+int main()
+{
+        fork();
+        printf("Hello world!, process_id(pid) = %d \n",getpid());
+        return 0;
+}
+Output:-
+75@laptop:~/Desktop$ gcc Fork.c
+75@laptop:~/Desktop$ ./a.out
+Hello world!, process_id(pid) = 4466 
+Hello world!, process_id(pid) = 4467
+
+
+Kill System Call
+
+Code:-
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <time.h>
+int main()
+{  
+    fork();
+    fork();
+    printf("Process %d\n",getpid());
+    sleep(60);
+    return 0;
+}
+
+Execution:-
+shubhankar75@laptop:~/Desktop$ ./a.out
+Process 28834
+Process 28835
+Process 28837
+Process 28836
+
+List of process running (ps -ef):-
+shubhan+   28834   21046  0 22:49 pts/3    00:00:00 ./a.out
+shubhan+   28835   28834  0 22:49 pts/3    00:00:00 ./a.out
+shubhan+   28836   28834  0 22:49 pts/3    00:00:00 ./a.out
+shubhan+   28837   28835  0 22:49 pts/3    00:00:00 ./a.out
+
+Using Kill Command :-
+ kill 28835
+
+List of Process after kill command (ps -ef) :-
+shubhan+   28834   21046  0 22:49 pts/3    00:00:00 ./a.out
+shubhan+   28835   28834  0 22:49 pts/3    00:00:00 [a.out] <defunct> //Process Killed
+shubhan+   28836   28834  0 22:49 pts/3    00:00:00 ./a.out
+shubhan+   28837    1291  0 22:49 pts/3    00:00:00 ./a.out
+
+The Second  Process is kill here 

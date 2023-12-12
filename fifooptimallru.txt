@@ -1,0 +1,97 @@
+
+import java.util.*;
+
+public class PageReplacementAlgorithms {
+    public static void main(String[] args) {
+        // Predefined page reference sequence
+        int[] pageReferenceSequence = {1, 2, 3, 4, 5, 1, 2, 6, 7, 8, 7, 8, 9, 7, 8, 9, 5, 4, 5, 4, 2};
+
+        System.out.println("FIFO Page Replacement:");
+        fifoPageReplacement(pageReferenceSequence.clone(), 3);
+
+        System.out.println("\nOptimal Page Replacement:");
+        optimalPageReplacement(pageReferenceSequence.clone(), 3);
+
+        System.out.println("\nLRU Page Replacement:");
+        lruPageReplacement(pageReferenceSequence.clone(), 3);
+    }
+
+    private static void fifoPageReplacement(int[] pageReferenceSequence, int capacity) {
+        Queue<Integer> fifoQueue = new LinkedList<>();
+        Set<Integer> pageSet = new HashSet<>();
+
+        for (int page : pageReferenceSequence) {
+            if (!pageSet.contains(page)) {
+                if (fifoQueue.size() == capacity) {
+                    int removedPage = fifoQueue.poll();
+                    pageSet.remove(removedPage);
+                }
+
+                fifoQueue.offer(page);
+                pageSet.add(page);
+            }
+        }
+
+        System.out.println("Page frames after FIFO replacement: " + fifoQueue);
+    }
+
+    private static void optimalPageReplacement(int[] pageReferenceSequence, int capacity) {
+        List<Integer> pageList = new ArrayList<>();
+        Set<Integer> pageSet = new HashSet<>();
+
+        for (int page : pageReferenceSequence) {
+            if (!pageSet.contains(page)) {
+                if (pageList.size() == capacity) {
+                    int optimalIndex = getOptimalIndex(pageReferenceSequence, pageList);
+                    int removedPage = pageList.remove(optimalIndex);
+                    pageSet.remove(removedPage);
+                }
+
+                pageList.add(page);
+                pageSet.add(page);
+            }
+        }
+
+        System.out.println("Page frames after Optimal replacement: " + pageList);
+    }
+
+    private static void lruPageReplacement(int[] pageReferenceSequence, int capacity) {
+        LinkedHashMap<Integer, Integer> lruMap = new LinkedHashMap<>(capacity, 0.75f, true);
+
+        for (int page : pageReferenceSequence) {
+            lruMap.put(page, 0);
+
+            if (lruMap.size() > capacity) {
+                int leastRecentlyUsed = lruMap.entrySet().iterator().next().getKey();
+                lruMap.remove(leastRecentlyUsed);
+            }
+        }
+
+        System.out.println("Page frames after LRU replacement: " + lruMap.keySet());
+    }
+
+    private static int getOptimalIndex(int[] pageReferenceSequence, List<Integer> pageList) {
+        int index = -1;
+        int farthest = 0;
+
+        for (int i = 0; i < pageList.size(); i++) {
+            int currentPage = pageList.get(i);
+            int j;
+            for (j = 0; j < pageReferenceSequence.length; j++) {
+                if (currentPage == pageReferenceSequence[j]) {
+                    if (j > farthest) {
+                        farthest = j;
+                        index = i;
+                    }
+                    break;
+                }
+            }
+            if (j == pageReferenceSequence.length) {
+                return i;
+            }
+        }
+
+        return (index == -1) ? 0 : index;
+    }
+}
+

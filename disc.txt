@@ -1,0 +1,79 @@
+import java.util.*;
+
+public class DiskSchedulingAlgorithms {
+    public static void main(String[] args) {
+        // Predefined list of disk requests
+        List<Integer> diskRequests = Arrays.asList(98, 183, 37, 122, 14, 124, 65, 67);
+
+        int initialHeadPosition = 53;
+
+        System.out.println("SCAN Disk Scheduling:");
+        scanDiskScheduling(diskRequests, initialHeadPosition);
+
+        System.out.println("\nC-SCAN Disk Scheduling:");
+        cScanDiskScheduling(diskRequests, initialHeadPosition);
+    }
+
+    private static void scanDiskScheduling(List<Integer> diskRequests, int initialHeadPosition) {
+        List<Integer> sortedRequests = new ArrayList<>(diskRequests);
+        Collections.sort(sortedRequests);
+
+        int totalHeadMovements = 0;
+
+        // Moving towards higher addresses
+        for (int i = initialHeadPosition; i < 200; i++) {
+            if (sortedRequests.contains(i)) {
+                totalHeadMovements += Math.abs(initialHeadPosition - i);
+                System.out.println("Servicing request at track " + i);
+                initialHeadPosition = i;
+                sortedRequests.remove(Integer.valueOf(i));
+            }
+        }
+
+        // Moving towards lower addresses
+        for (int i = initialHeadPosition; i >= 0; i--) {
+            if (sortedRequests.contains(i)) {
+                totalHeadMovements += Math.abs(initialHeadPosition - i);
+                System.out.println("Servicing request at track " + i);
+                initialHeadPosition = i;
+                sortedRequests.remove(Integer.valueOf(i));
+            }
+        }
+
+        System.out.println("Total head movements: " + totalHeadMovements);
+    }
+
+    private static void cScanDiskScheduling(List<Integer> diskRequests, int initialHeadPosition) {
+        List<Integer> sortedRequests = new ArrayList<>(diskRequests);
+        Collections.sort(sortedRequests);
+
+        int totalHeadMovements = 0;
+
+        // Moving towards higher addresses
+        for (int i = initialHeadPosition; i < 200; i++) {
+            if (sortedRequests.contains(i)) {
+                totalHeadMovements += Math.abs(initialHeadPosition - i);
+                System.out.println("Servicing request at track " + i);
+                initialHeadPosition = i;
+                sortedRequests.remove(Integer.valueOf(i));
+            }
+        }
+
+        // Moving to the beginning
+        totalHeadMovements += Math.abs(initialHeadPosition - 0);
+        System.out.println("Moving to track 0");
+
+        // Moving towards higher addresses again
+        for (int i = 0; i < initialHeadPosition; i++) {
+            if (sortedRequests.contains(i)) {
+                totalHeadMovements += Math.abs(initialHeadPosition - i);
+                System.out.println("Servicing request at track " + i);
+                initialHeadPosition = i;
+                sortedRequests.remove(Integer.valueOf(i));
+            }
+        }
+
+        System.out.println("Total head movements: " + totalHeadMovements);
+    }
+}
+

@@ -1,0 +1,107 @@
+import java.util.Arrays;
+
+public class BankersAlgorithm {
+    public static void main(String[] args) {
+        // Predefined burst times for processes
+        int[][] maximum = {
+                {7, 5, 3},
+                {3, 2, 2},
+                {9, 0, 2},
+                {2, 2, 2},
+                {4, 3, 3}
+        };
+
+        int[][] allocation = {
+                {0, 1, 0},
+                {2, 0, 0},
+                {3, 0, 2},
+                {2, 1, 1},
+                {0, 0, 2}
+        };
+
+        int[] available = {3, 3, 2};
+
+        int processes = maximum.length;
+        int resources = maximum[0].length;
+
+        int[][] need = new int[processes][resources];
+        for (int i = 0; i < processes; i++) {
+            for (int j = 0; j < resources; j++) {
+                need[i][j] = maximum[i][j] - allocation[i][j];
+            }
+        }
+
+        boolean[] finished = new boolean[processes];
+        Arrays.fill(finished, false);
+
+        int[] work = Arrays.copyOf(available, available.length);
+
+        for (int i = 0; i < processes; i++) {
+            if (!finished[i] && isRequestSafe(i, need, allocation, work)) {
+                // Simulate resource allocation
+                for (int j = 0; j < resources; j++) {
+                    work[j] += allocation[i][j];
+                    allocation[i][j] = 0;
+                }
+                finished[i] = true;
+                System.out.println("Process " + i + " executed safely.");
+                i = -1; // Restart loop to check for more safe executions
+            }
+        }
+
+        boolean allFinished = Arrays.stream(finished).allMatch(Boolean::valueOf);
+
+        if (allFinished) {
+            System.out.println("\nAll processes executed safely.");
+        } else {
+            System.out.println("\nUnsafe state! Not all processes could be executed safely.");
+        }
+    }
+
+    private static boolean isRequestSafe(int process, int[][] need, int[][] allocation, int[] work) {
+        int resources = need[0].length;
+
+        // Check if the request can be granted
+        for (int i = 0; i < resources; i++) {
+            if (need[process][i] > work[i]) {
+                return false;
+            }
+        }
+
+        // Simulate resource allocation
+        for (int i = 0; i < resources; i++) {
+            work[i] -= need[process][i];
+            allocation[process][i] += need[process][i];
+            need[process][i] = 0;
+        }
+
+        // Check if the system remains in a safe state after the simulated allocation
+        boolean[] finished = new boolean[need.length];
+        Arrays.fill(finished, false);
+
+        for (int i = 0; i < need.length; i++) {
+            if (!finished[i]) {
+                boolean canFinish = true;
+                for (int j = 0; j < resources; j++) {
+                    if (need[i][j] > work[j]) {
+                        canFinish = false;
+                        break;
+                    }
+                }
+
+                if (canFinish) {
+                    for (int j = 0; j < resources; j++) {
+                        work[j] += allocation[i][j];
+                        allocation[i][j] = 0;
+                        need[i][j] = 0;
+                    }
+                    finished[i] = true;
+                    i = -1; // Restart loop to check for more safe executions
+                }
+            }
+        }
+
+        return Arrays.stream(finished).allMatch(Boolean::valueOf);
+    }
+}
+

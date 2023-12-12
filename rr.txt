@@ -1,0 +1,55 @@
+class RoundRobin {
+    public static void main(String[] args) {
+        // Predefined burst times for processes
+        int[] burstTime = {10, 5, 8, 2};
+
+        int n = burstTime.length;
+        int timeQuantum = 3; // Time quantum for Round Robin
+
+        // Initialize arrays to store waiting time and turnaround time
+        int[] waitingTime = new int[n];
+        int[] turnaroundTime = new int[n];
+
+        // Perform Round Robin scheduling
+        int[] remainingTime = new int[n];
+        System.arraycopy(burstTime, 0, remainingTime, 0, n);
+
+        int currentTime = 0;
+        int index = 0;
+
+        while (true) {
+            boolean allProcessesCompleted = true;
+
+            for (int i = 0; i < n; i++) {
+                if (remainingTime[i] > 0) {
+                    allProcessesCompleted = false;
+
+                    if (remainingTime[i] > timeQuantum) {
+                        currentTime += timeQuantum;
+                        remainingTime[i] -= timeQuantum;
+                    } else {
+                        currentTime += remainingTime[i];
+                        waitingTime[i] = currentTime - burstTime[i];
+                        remainingTime[i] = 0;
+                    }
+                }
+            }
+
+            if (allProcessesCompleted) {
+                break;
+            }
+        }
+
+        // Calculate turnaround time
+        for (int i = 0; i < n; i++) {
+            turnaroundTime[i] = burstTime[i] + waitingTime[i];
+        }
+
+        // Display results
+        System.out.println("\nProcess\tBurst Time\tWaiting Time\tTurnaround Time");
+        for (int i = 0; i < n; i++) {
+            System.out.println((i + 1) + "\t\t" + burstTime[i] + "\t\t" + waitingTime[i] + "\t\t" + turnaroundTime[i]);
+        }
+    }
+}
+

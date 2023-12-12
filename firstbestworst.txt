@@ -1,0 +1,78 @@
+public class MemoryAllocation {
+    public static void main(String[] args) {
+        // Predefined memory block sizes
+        int[] memoryBlocks = {100, 200, 300, 400, 500};
+
+        // Predefined process sizes
+        int[] processSizes = {150, 250, 350, 200, 100};
+
+        System.out.println("First Fit:");
+        firstFit(memoryBlocks, processSizes.clone());
+
+        System.out.println("\nBest Fit:");
+        bestFit(memoryBlocks, processSizes.clone());
+
+        System.out.println("\nWorst Fit:");
+        worstFit(memoryBlocks, processSizes.clone());
+    }
+
+    private static void firstFit(int[] memoryBlocks, int[] processSizes) {
+        int n = memoryBlocks.length;
+        int m = processSizes.length;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (memoryBlocks[j] >= processSizes[i]) {
+                    memoryBlocks[j] -= processSizes[i];
+                    System.out.println("Process " + (i + 1) + " allocated to Block " + (j + 1));
+                    break;
+                }
+            }
+        }
+    }
+
+    private static void bestFit(int[] memoryBlocks, int[] processSizes) {
+        int n = memoryBlocks.length;
+        int m = processSizes.length;
+
+        for (int i = 0; i < m; i++) {
+            int bestFitIndex = -1;
+
+            for (int j = 0; j < n; j++) {
+                if (memoryBlocks[j] >= processSizes[i]) {
+                    if (bestFitIndex == -1 || memoryBlocks[j] < memoryBlocks[bestFitIndex]) {
+                        bestFitIndex = j;
+                    }
+                }
+            }
+
+            if (bestFitIndex != -1) {
+                memoryBlocks[bestFitIndex] -= processSizes[i];
+                System.out.println("Process " + (i + 1) + " allocated to Block " + (bestFitIndex + 1));
+            }
+        }
+    }
+
+    private static void worstFit(int[] memoryBlocks, int[] processSizes) {
+        int n = memoryBlocks.length;
+        int m = processSizes.length;
+
+        for (int i = 0; i < m; i++) {
+            int worstFitIndex = -1;
+
+            for (int j = 0; j < n; j++) {
+                if (memoryBlocks[j] >= processSizes[i]) {
+                    if (worstFitIndex == -1 || memoryBlocks[j] > memoryBlocks[worstFitIndex]) {
+                        worstFitIndex = j;
+                    }
+                }
+            }
+
+            if (worstFitIndex != -1) {
+                memoryBlocks[worstFitIndex] -= processSizes[i];
+                System.out.println("Process " + (i + 1) + " allocated to Block " + (worstFitIndex + 1));
+            }
+        }
+    }
+}
+
