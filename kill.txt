@@ -56,3 +56,9 @@ shubhan+   28836   28834  0 22:49 pts/3    00:00:00 ./a.out
 shubhan+   28837    1291  0 22:49 pts/3    00:00:00 ./a.out
 
 The Second  Process is kill here 
+
+The "fork" and "kill" system calls are fundamental in Unix-like operating systems for process management. The "fork" system call creates a new process, known as the child process, duplicating the calling process (parent). The child process inherits the parent's resources and continues execution independently. It allows for parallel execution of tasks and is a cornerstone for multitasking.
+
+On the other hand, the "kill" system call is used to send signals to processes. The most common signal is SIGKILL, which terminates a process abruptly. SIGTERM is a softer termination signal, allowing processes to perform cleanup before exiting. The "kill" system call is essential for process communication and control.
+
+In practice, developers use these system calls to create and manage processes, enabling concurrent execution and facilitating communication between processes through signal handling. Understanding these system calls is crucial for effective process management in Unix-based systems.
