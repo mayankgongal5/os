@@ -76,4 +76,5 @@ public class DiskSchedulingAlgorithms {
         System.out.println("Total head movements: " + totalHeadMovements);
     }
 }
+Disk scheduling algorithms manage the order in which I/O requests are serviced. In the SCAN algorithm (elevator algorithm), the disk arm moves back and forth, servicing requests along its path. The CSAN (Circular SCAN) variant only scans in one direction, jumping to the beginning of the disk after reaching the end. Both aim to minimize seek time and optimize disk arm movement, enhancing overall disk performance. Implementation involves maintaining a queue of I/O requests, tracking the current disk arm position, and determining the order in which requests are serviced based on the arm's movement direction for SCAN or its circular behavior for CSAN.
 
