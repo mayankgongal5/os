@@ -42,4 +42,5 @@ class SJF {
         }
     }
 }
+Shortest Job First (SJF) is a CPU scheduling algorithm that selects the process with the shortest burst time to execute first. It aims to minimize the total processing time and reduce waiting times, thereby enhancing system efficiency. SJF can be preemptive or non-preemptive; in the preemptive version, if a new process arrives with a shorter burst time than the currently running process, it preempts the CPU. The non-preemptive variant executes the entire shortest job without interruption. SJF provides optimal turnaround times for processes with the smallest burst times. However, predicting actual burst times accurately is often challenging. To implement SJF, maintain a ready queue and sort processes based on their burst times. Regularly update the ready queue as new processes arrive or priorities change. The implementation involves continuously selecting and executing the process with the shortest remaining burst time to optimize system performance.
 
