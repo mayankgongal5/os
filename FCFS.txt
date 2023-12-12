@@ -39,3 +39,5 @@ class FCFS {
     }
 }
 
+First Come First Serve (FCFS) is a simple CPU scheduling algorithm where processes are executed in the order they arrive in the ready queue. The first process to arrive is the first to be executed. FCFS is non-preemptive, meaning once a process starts executing, it continues until completion. This algorithm is easy to understand and implement, but it may suffer from "convoy effect," where smaller processes get delayed behind larger ones. It exhibits a First-In-First-Out (FIFO) behavior and has a low complexity. However, FCFS may lead to poor turnaround times, especially in scenarios where shorter processes are queued behind longer ones. Despite its limitations, FCFS provides a baseline for understanding more complex scheduling algorithms and their optimizations in computer systems. Implementing FCFS involves maintaining a queue, managing process arrival times, and executing processes sequentially as per their arrival order.
+
