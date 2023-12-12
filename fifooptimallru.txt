@@ -94,4 +94,5 @@ public class PageReplacementAlgorithms {
         return (index == -1) ? 0 : index;
     }
 }
+Page replacement algorithms are vital for managing memory in operating systems. In FIFO (First-In-First-Out), the oldest page is replaced first. Optimal replaces the page that will not be used for the longest time. LRU (Least Recently Used) replaces the page that has not been used for the longest period. Implementing these algorithms involves tracking page access patterns and deciding which page to replace when a page fault occurs. While FIFO is simple, it may suffer from the Belady's anomaly. Optimal is optimal but often impractical. LRU is effective but may have higher implementation overhead due to maintaining usage history.
 
