@@ -105,3 +105,5 @@ public class BankersAlgorithm {
     }
 }
 
+Banker's algorithm is a deadlock avoidance method used in operating systems to prevent deadlock occurrence. It ensures that resources are allocated to processes in a way that avoids the system entering an unsafe state. The algorithm evaluates the potential impact of resource requests before allocation, checking if the system remains in a safe state. If an allocation would lead to an unsafe state, the system denies the request. By keeping track of available resources and the maximum needs of processes, Banker's algorithm contributes to system stability. Implementation involves maintaining matrices to represent resource allocation and checking safety conditions before granting requests.
+
